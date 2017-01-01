@@ -1,0 +1,15 @@
+{
+  "name": "Tessel2Doorbell",
+  "version": "0.0.0",
+  "description": "doorbell System utilizing Tessel2 IOT boar, motor runner and 100 year old telephone bell",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "git://github.com/jussikin/Tessel2Doorbell.git",
+  "keywords": [
+    "Tessel"
+  ],
+  "license": "MIT",
+  "readme": "A bare bones Tessel 2 blinky script."
+}
