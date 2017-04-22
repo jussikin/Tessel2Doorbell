@@ -8,7 +8,9 @@ tessel.led[2].on();
 var pin = tessel.port.A.pin[2];
 var pin2 = tessel.port.A.pin[3];
 
-var blinkTimes = 20;
+var blinkTimes = 0;
+var slow=false;
+var slowCounter = 0;
 
 function standBy(){
   pin.write(0, (error, buffer) => {
@@ -21,6 +23,7 @@ function standBy(){
       throw error;
     }
   });
+  slow=false;
 }
 
 function runOn(){
@@ -40,6 +43,14 @@ standBy();
 
 // Blink!
 setInterval(function () {
+  if(slow){
+    slowCounter--;
+    if(slowCounter>0){
+      return
+    }
+    slowCounter=6;
+  }
+
   if(blinkTimes>0){
     tessel.led[2].toggle();
     tessel.led[3].toggle();
@@ -50,14 +61,18 @@ setInterval(function () {
   if(blinkTimes==0)
     standBy();
   console.log(blinkTimes)
-}, 200);
+}, 100);
 
 client.on('connect', function () {
   client.subscribe('doorBell')
+  client.subscribe('saunaAlert')
 })
 
 client.on('message', function (topic, message) {
   console.log(message.toString())
+  console.log(topic)
+  if(topic=="saunaAlert")
+    slow=true;
   runOn();
   blinkTimes = blinkTimes+Number(message);
 
